@@ -5,8 +5,166 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KidMath"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="KidMath" Height="800" Width="1000" ResizeMode="NoResize" Left="200" Top="20">
+    <Window.Resources>
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <Ellipse>
+                    <Ellipse.Fill>
+                        <RadialGradientBrush>
+                            <GradientStop Offset="0.886" Color="#FF5FC3FF"/>
+                            <GradientStop Offset="0.98" Color="#FF3DC7FA"/>
+                            <GradientStop Color="#FF96D0FF" Offset="0.95"/>
+                            <GradientStop Color="#FF3AB5FF" Offset="0.799"/>
+                            <GradientStop Color="#FFCEE9FF" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <ContentPresenter></ContentPresenter>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="84*"/>
+            <RowDefinition Height="23*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0.4,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="313*" />
+                <ColumnDefinition Width="206*" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="375*"/>
+                    <RowDefinition Height="229*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Margin="46,150,168.4,50.2" Content="Settings" Foreground="#FF16663A"
+                    FontFamily="Comic Sans MS" FontSize="25">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Setters>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid>
+                                                <Ellipse>
+                                                    <Ellipse.Fill>
+                                                        <RadialGradientBrush>
+                                                            <GradientStop Offset="0.886" Color="#FF74FF5F"/>
+                                                            <GradientStop Offset="0.977" Color="#FF56FA3D"/>
+                                                            <GradientStop Color="#FFABFF96" Offset="0.95"/>
+                                                            <GradientStop Color="#FF46FF3A" Offset="0.799"/>
+                                                            <GradientStop Color="#FFD1FFCE" Offset="1"/>
+                                                        </RadialGradientBrush>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
+                                                <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style.Setters>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Row="1" Margin="128,29.8,90.4,30" Content="History" Foreground="#FF631155"
+                    FontFamily="Comic Sans MS" FontSize="25">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Setters>
+                                <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Ellipse>
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Offset="0.886" Color="#FFFF5FEF"/>
+                                                        <GradientStop Offset="0.977" Color="#FFFA3DE7"/>
+                                                        <GradientStop Color="#FFFF96F8" Offset="0.95"/>
+                                                        <GradientStop Color="#FFFF3AF9" Offset="0.799"/>
+                                                        <GradientStop Color="#FFFFCEF8" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            </Style.Setters>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
+            <Button Grid.Column="0" Margin="100,160,100,40" Content="Start Game!" Foreground="#FF18438B"
+                    FontFamily="Comic Sans MS" FontSize="40" Background="#FF470960">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Ellipse>
+                                            <Ellipse.Fill>
+                                                <RadialGradientBrush>
+                                                    <GradientStop Offset="0.886" Color="#FF5FC3FF"/>
+                                                    <GradientStop Offset="0.98" Color="#FF3DC7FA"/>
+                                                    <GradientStop Color="#FF96D0FF" Offset="0.95"/>
+                                                    <GradientStop Color="#FF3AB5FF" Offset="0.799"/>
+                                                    <GradientStop Color="#FFCEE9FF" Offset="1"/>
+                                                </RadialGradientBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FlowDirection="RightToLeft">
+            <Button Width="100" Height="100" FontFamily="Comic Sans MS" FontSize="20"
+                    Margin="0,30,40,35" Content="About" Foreground="#FF5B620F">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid>
+                                            <Ellipse x:Name="Shape">
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Offset="0.889" Color="#FFDCFF5F"/>
+                                                        <GradientStop Offset="0.977" Color="#FFDEFA3D"/>
+                                                        <GradientStop Color="#FFEFFF96" Offset="0.95"/>
+                                                        <GradientStop Color="#FFCCFF3A" Offset="0.799"/>
+                                                        <GradientStop Color="#FFF2FFCE" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="Shape" Property="Fill" Value="#FFCCFF3A"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>
