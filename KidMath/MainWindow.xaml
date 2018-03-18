@@ -7,163 +7,278 @@
         mc:Ignorable="d"
         Title="KidMath" Height="800" Width="1000" ResizeMode="NoResize" Left="200" Top="20">
     <Window.Resources>
-        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
-            <Grid>
-                <Ellipse>
-                    <Ellipse.Fill>
-                        <RadialGradientBrush>
-                            <GradientStop Offset="0.886" Color="#FF5FC3FF"/>
-                            <GradientStop Offset="0.98" Color="#FF3DC7FA"/>
-                            <GradientStop Color="#FF96D0FF" Offset="0.95"/>
-                            <GradientStop Color="#FF3AB5FF" Offset="0.799"/>
-                            <GradientStop Color="#FFCEE9FF" Offset="1"/>
-                        </RadialGradientBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <ContentPresenter></ContentPresenter>
-            </Grid>
-        </ControlTemplate>
     </Window.Resources>
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Images\KidMathBackground.png" Opacity="0.4" Stretch="Uniform"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="84*"/>
             <RowDefinition Height="23*"/>
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" Margin="0,0,0.4,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="313*" />
-                <ColumnDefinition Width="206*" />
-            </Grid.ColumnDefinitions>
-            
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="375*"/>
-                    <RowDefinition Height="229*"/>
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0" Margin="46,150,168.4,50.2" Content="Settings" Foreground="#FF16663A"
-                    FontFamily="Comic Sans MS" FontSize="25">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Setters>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Grid>
-                                                <Ellipse>
-                                                    <Ellipse.Fill>
-                                                        <RadialGradientBrush>
-                                                            <GradientStop Offset="0.886" Color="#FF74FF5F"/>
-                                                            <GradientStop Offset="0.977" Color="#FF56FA3D"/>
-                                                            <GradientStop Color="#FFABFF96" Offset="0.95"/>
-                                                            <GradientStop Color="#FF46FF3A" Offset="0.799"/>
-                                                            <GradientStop Color="#FFD1FFCE" Offset="1"/>
-                                                        </RadialGradientBrush>
-                                                    </Ellipse.Fill>
-                                                </Ellipse>
-                                                <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style.Setters>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Grid.Row="1" Margin="128,29.8,90.4,30" Content="History" Foreground="#FF631155"
-                    FontFamily="Comic Sans MS" FontSize="25">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Setters>
-                                <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Grid>
-                                            <Ellipse>
-                                                <Ellipse.Fill>
-                                                    <RadialGradientBrush>
-                                                        <GradientStop Offset="0.886" Color="#FFFF5FEF"/>
-                                                        <GradientStop Offset="0.977" Color="#FFFA3DE7"/>
-                                                        <GradientStop Color="#FFFF96F8" Offset="0.95"/>
-                                                        <GradientStop Color="#FFFF3AF9" Offset="0.799"/>
-                                                        <GradientStop Color="#FFFFCEF8" Offset="1"/>
-                                                    </RadialGradientBrush>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            </Style.Setters>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </Grid>
-
-            <Button Grid.Column="0" Margin="100,160,100,40" Content="Start Game!" Foreground="#FF18438B"
-                    FontFamily="Comic Sans MS" FontSize="40" Background="#FF470960">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Ellipse>
-                                            <Ellipse.Fill>
-                                                <RadialGradientBrush>
-                                                    <GradientStop Offset="0.886" Color="#FF5FC3FF"/>
-                                                    <GradientStop Offset="0.98" Color="#FF3DC7FA"/>
-                                                    <GradientStop Color="#FF96D0FF" Offset="0.95"/>
-                                                    <GradientStop Color="#FF3AB5FF" Offset="0.799"/>
-                                                    <GradientStop Color="#FFCEE9FF" Offset="1"/>
-                                                </RadialGradientBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-                                        <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+        <Canvas>
+            <Button Name="cmdSettings" Content="Settings" Foreground="#FF16663A" FontFamily="Comic Sans MS" FontSize="25" TabIndex="1" 
+                    FocusVisualStyle="{x:Null}" Height="175" Canvas.Left="595" Canvas.Top="107" Width="180">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse x:Name="Shape">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0.886" Color="#FF74FF5F"/>
+                                        <GradientStop Offset="0.977" Color="#FF56FA3D"/>
+                                        <GradientStop Color="#FFABFF96" Offset="0.95"/>
+                                        <GradientStop Color="#FF46FF3A" Offset="0.799"/>
+                                        <GradientStop Color="#FFD1FFCE" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FF56FA3D"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Shape" Property="Stroke" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard x:Name="SettingsMotion">
+                                <Storyboard>
+                                    <DoubleAnimationUsingPath Storyboard.TargetName="cmdSettings"
+                                                              Storyboard.TargetProperty="(Canvas.Left)"
+                                                              Duration="0:0:10" RepeatBehavior="Forever"
+                                                              Source="X">
+                                        <DoubleAnimationUsingPath.PathGeometry>
+                                            <PathGeometry>
+                                                <PathFigure IsClosed="True" StartPoint="595, 107">
+                                                    <ArcSegment Point="595, 108" Size="20, 20"
+                                                                SweepDirection="Counterclockwise" IsLargeArc="True"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </DoubleAnimationUsingPath.PathGeometry>
+                                    </DoubleAnimationUsingPath>
+                                    <DoubleAnimationUsingPath Storyboard.TargetName="cmdSettings"
+                                                              Storyboard.TargetProperty="(Canvas.Top)"
+                                                              Duration="0:0:10" RepeatBehavior="Forever"
+                                                              Source="Y">
+                                        <DoubleAnimationUsingPath.PathGeometry>
+                                            <PathGeometry>
+                                                <PathFigure IsClosed="True" StartPoint="595, 107">
+                                                    <ArcSegment Point="595, 108" Size="20, 20"
+                                                                SweepDirection="Counterclockwise" IsLargeArc="True"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </DoubleAnimationUsingPath.PathGeometry>
+                                    </DoubleAnimationUsingPath>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseEnter" SourceName="cmdSettings">
+                        <PauseStoryboard BeginStoryboardName="SettingsMotion"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseLeave" SourceName="cmdSettings">
+                        <ResumeStoryboard BeginStoryboardName="SettingsMotion"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.Click" SourceName="cmdSettings">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="cmdSettings" 
+                                                     Storyboard.TargetProperty="Width"
+                                                     From="{Binding ElementName=cmdSettings, Path=ActualWidth}"
+                                                     To="1000"/>
+                                    <DoubleAnimation Storyboard.TargetName="cmdSettings"
+                                                     Storyboard.TargetProperty="Height"
+                                                     From="{Binding ElementName=cmdSettings, Path=ActualHeight}"
+                                                     To="1000"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
             </Button>
-        </Grid>
+            <Button Name="cmdHistory" Content="History" Foreground="#FF631155" FontFamily="Comic Sans MS" FontSize="25" 
+                    TabIndex="2" FocusVisualStyle="{x:Null}" Height="169" Canvas.Left="718" Canvas.Top="342" Width="176">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse x:Name="Shape">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0.886" Color="#FFFF5FEF"/>
+                                        <GradientStop Offset="0.977" Color="#FFFA3DE7"/>
+                                        <GradientStop Color="#FFFF96F8" Offset="0.95"/>
+                                        <GradientStop Color="#FFFF3AF9" Offset="0.799"/>
+                                        <GradientStop Color="#FFFFCEF8" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FFFA3DE7"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Shape" Property="Stroke" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard x:Name="HistoryMotion">
+                                <Storyboard>
+                                    <DoubleAnimationUsingPath Storyboard.TargetName="cmdHistory"
+                                                              Storyboard.TargetProperty="(Canvas.Left)"
+                                                              Duration="0:0:15" RepeatBehavior="Forever"
+                                                              Source="X">
+                                        <DoubleAnimationUsingPath.PathGeometry>
+                                            <PathGeometry>
+                                                <PathFigure IsClosed="True" StartPoint="718, 342">
+                                                    <ArcSegment Point="718,343" Size="20, 20"
+                                                                SweepDirection="Clockwise" IsLargeArc="True"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </DoubleAnimationUsingPath.PathGeometry>
+                                    </DoubleAnimationUsingPath>
+                                    <DoubleAnimationUsingPath Storyboard.TargetName="cmdHistory"
+                                                              Storyboard.TargetProperty="(Canvas.Top)"
+                                                              Duration="0:0:15" RepeatBehavior="Forever"
+                                                              Source="Y">
+                                        <DoubleAnimationUsingPath.PathGeometry>
+                                            <PathGeometry>
+                                                <PathFigure IsClosed="True" StartPoint="718, 342">
+                                                    <ArcSegment Point="718, 343" Size="20, 20"
+                                                                SweepDirection="Clockwise" IsLargeArc="True"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </DoubleAnimationUsingPath.PathGeometry>
+                                    </DoubleAnimationUsingPath>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseEnter" SourceName="cmdHistory">
+                        <PauseStoryboard BeginStoryboardName="HistoryMotion"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseLeave" SourceName="cmdHistory">
+                        <ResumeStoryboard BeginStoryboardName="HistoryMotion"/>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Name="cmdStartGame" Content="Start Game!" Foreground="#FF18438B" FontFamily="Comic Sans MS" 
+                    FontSize="40" Background="#FF470960" TabIndex="0" FocusVisualStyle="{x:Null}" 
+                    Canvas.Left="108" Canvas.Top="151" Width="350" Height="350">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse x:Name="Shape">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0.886" Color="#FF5FC3FF"/>
+                                        <GradientStop Offset="0.98" Color="#FF3DC7FA"/>
+                                        <GradientStop Color="#FF96D0FF" Offset="0.95"/>
+                                        <GradientStop Color="#FF3AB5FF" Offset="0.799"/>
+                                        <GradientStop Color="#FFCEE9FF" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FF3DC7FA"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Shape" Property="Stroke" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard x:Name="Motion">
+                                <Storyboard>
+                                    <DoubleAnimationUsingPath Storyboard.TargetName="cmdStartGame"
+                                                              Storyboard.TargetProperty="(Canvas.Left)"
+                                                              Duration="0:0:10" RepeatBehavior="Forever"
+                                                              Source="X">
+                                        <DoubleAnimationUsingPath.PathGeometry>
+                                            <PathGeometry>
+                                                <PathFigure IsClosed="True" StartPoint="108,151">
+                                                    <ArcSegment Point="108,152" Size="20, 20"
+                                                                SweepDirection="Clockwise" IsLargeArc="True"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </DoubleAnimationUsingPath.PathGeometry>
+                                    </DoubleAnimationUsingPath>
+                                    <DoubleAnimationUsingPath Storyboard.TargetName="cmdStartGame"
+                                                              Storyboard.TargetProperty="(Canvas.Top)"
+                                                              Duration="0:0:10" RepeatBehavior="Forever"
+                                                              Source="Y">
+                                        <DoubleAnimationUsingPath.PathGeometry>
+                                            <PathGeometry>
+                                                <PathFigure IsClosed="True" StartPoint="108,151">
+                                                    <ArcSegment Point="108,152" Size="20, 20"
+                                                                SweepDirection="Clockwise" IsLargeArc="True"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </DoubleAnimationUsingPath.PathGeometry>
+                                    </DoubleAnimationUsingPath>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseEnter" SourceName="cmdStartGame">
+                        <PauseStoryboard BeginStoryboardName="Motion"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseLeave" SourceName="cmdStartGame">
+                        <ResumeStoryboard BeginStoryboardName="Motion"/>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+        </Canvas>
 
-        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FlowDirection="RightToLeft">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="-1,0.2,-0.4,0.4" HorizontalAlignment="Right">
             <Button Width="100" Height="100" FontFamily="Comic Sans MS" FontSize="20"
-                    Margin="0,30,40,35" Content="About" Foreground="#FF5B620F">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Grid>
-                                            <Ellipse x:Name="Shape">
-                                                <Ellipse.Fill>
-                                                    <RadialGradientBrush>
-                                                        <GradientStop Offset="0.889" Color="#FFDCFF5F"/>
-                                                        <GradientStop Offset="0.977" Color="#FFDEFA3D"/>
-                                                        <GradientStop Color="#FFEFFF96" Offset="0.95"/>
-                                                        <GradientStop Color="#FFCCFF3A" Offset="0.799"/>
-                                                        <GradientStop Color="#FFF2FFCE" Offset="1"/>
-                                                    </RadialGradientBrush>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
-                                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="Shape" Property="Fill" Value="#FFCCFF3A"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style.Setters>
-                    </Style>
-                </Button.Style>
+                    Margin="30,30,30,30" Content="About" Foreground="#FF5B620F" TabIndex="3" 
+                    FocusVisualStyle="{x:Null}">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Shape">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0.889" Color="#FFDCFF5F"/>
+                                        <GradientStop Offset="0.977" Color="#FFDEFA3D"/>
+                                        <GradientStop Color="#FFEFFF96" Offset="0.95"/>
+                                        <GradientStop Color="#FFCCFF3A" Offset="0.799"/>
+                                        <GradientStop Color="#FFF2FFCE" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FFCCFF3A"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Shape" Property="Stroke" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
             </Button>
         </StackPanel>
     </Grid>
