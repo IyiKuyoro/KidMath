@@ -7,18 +7,28 @@
         mc:Ignorable="d"
         Title="KidMath" Height="800" Width="1000" ResizeMode="NoResize" Left="200" Top="20">
     <Window.Resources>
+        <Style x:Key="TextBoxStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <local:TimeValueConverter x:Key="timeConverter"/>
+        <local:NumberOfQuestionsConverter x:Key="questionsConverter"/>
     </Window.Resources>
-    <Grid>
+    <Grid Name="Container">
         <Grid.Background>
             <ImageBrush ImageSource="Images\KidMathBackground.png" Opacity="0.4" Stretch="Uniform"/>
         </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="84*"/>
-            <RowDefinition Height="23*"/>
-        </Grid.RowDefinitions>
-        <Canvas>
+        <Canvas Name="container">
             <Button Name="cmdSettings" Content="Settings" Foreground="#FF16663A" FontFamily="Comic Sans MS" FontSize="25" TabIndex="1" 
-                    FocusVisualStyle="{x:Null}" Height="175" Canvas.Left="595" Canvas.Top="107" Width="180">
+                    FocusVisualStyle="{x:Null}" Height="175" Canvas.Left="595" Canvas.Top="107" Width="180" Click="cmdSettings_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
@@ -33,7 +43,7 @@
                                     </RadialGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsPressed" Value="True">
@@ -85,22 +95,6 @@
                     </EventTrigger>
                     <EventTrigger RoutedEvent="Button.MouseLeave" SourceName="cmdSettings">
                         <ResumeStoryboard BeginStoryboardName="SettingsMotion"/>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="Button.Click" SourceName="cmdSettings">
-                        <EventTrigger.Actions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="cmdSettings" 
-                                                     Storyboard.TargetProperty="Width"
-                                                     From="{Binding ElementName=cmdSettings, Path=ActualWidth}"
-                                                     To="1000"/>
-                                    <DoubleAnimation Storyboard.TargetName="cmdSettings"
-                                                     Storyboard.TargetProperty="Height"
-                                                     From="{Binding ElementName=cmdSettings, Path=ActualHeight}"
-                                                     To="1000"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger.Actions>
                     </EventTrigger>
                 </Button.Triggers>
             </Button>
@@ -247,12 +241,8 @@
                     </EventTrigger>
                 </Button.Triggers>
             </Button>
-        </Canvas>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="-1,0.2,-0.4,0.4" HorizontalAlignment="Right">
-            <Button Width="100" Height="100" FontFamily="Comic Sans MS" FontSize="20"
-                    Margin="30,30,30,30" Content="About" Foreground="#FF5B620F" TabIndex="3" 
-                    FocusVisualStyle="{x:Null}">
+            <Button Name="cmdAbout" Width="100" Height="100" FontFamily="Comic Sans MS" FontSize="20" Content="About" Foreground="#FF5B620F" TabIndex="3" 
+                    FocusVisualStyle="{x:Null}" Canvas.Left="846" Canvas.Top="633">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
@@ -280,6 +270,80 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-        </StackPanel>
+        </Canvas>
+        <Canvas Name="settingsScreen" Visibility="Collapsed">
+            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Player Name:" Width="125" 
+                       Canvas.Left="100" Canvas.Top="100"/>
+            <TextBox Name="txtBoxPlayerName" FontFamily="Comic Sans MS" FontSize="20" Width="625"
+                     Height="30" TextAlignment="Center" Canvas.Left="225" Canvas.Top="100"
+                     Text="{Binding Path=PlayerName}"/>
+            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Duration:"
+                       Width="125" Canvas.Left="100" Canvas.Top="200"/>
+            <ComboBox Style="{StaticResource ComboBoxStyle}" Name="cmbDuration"
+                      Canvas.Top="200" Canvas.Left="225" SelectedItem="{Binding Path=Time, Converter={StaticResource ResourceKey=timeConverter}}" 
+                      SelectionChanged="cmbDuration_SelectionChanged"/>
+            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Nos." Width="100" Height="30"
+                       Canvas.Top="200" Canvas.Left="525"/>
+            <ComboBox Style="{StaticResource ComboBoxStyle}" Name="cmbQuestions"
+                      Canvas.Top="200" Canvas.Left="600" SelectedItem="{Binding Path=Questions, Converter={StaticResource ResourceKey=questionsConverter}}"/>
+            <GroupBox Width="375" Height="275" Header="Operations" FontFamily="Comic Sans MS"
+                      FontSize="20" Canvas.Left="100" Canvas.Top="300">
+                <Canvas>
+                    <CheckBox Name="chkAdd" Canvas.Left="50" Canvas.Top="37">
+                        <Image Source="Images\add.png" Width="50" Height="50"/>
+                    </CheckBox>
+                    <CheckBox Name="chkSubtract" Canvas.Left="224" Canvas.Top="37">
+                        <Image Source="Images\subtract.png" Width="50" Height="50"/>
+                    </CheckBox>
+                    <CheckBox Name="chkMultiply" Canvas.Left="50" Canvas.Top="139">
+                        <Image Source="Images\multiply.png" Width="50" Height="50"/>
+                    </CheckBox>
+                    <CheckBox Name="chkDivide" Canvas.Left="224" Canvas.Top="139">
+                        <Image Source="Images\divide.png" Width="50" Height="50"/>
+                    </CheckBox>
+                </Canvas>
+            </GroupBox>
+            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Max Operand" TextAlignment="Center"
+                       Width="125" Canvas.Left="600" Canvas.Top="358"/>
+            <ComboBox Style="{StaticResource ComboBoxStyle}" Name="cmbMaxOperand" 
+                      Canvas.Left="544" Canvas.Top="415" SelectedItem="{Binding Path=MaxOperand}"/>
+            <Button Name="cmdBack" Content="Back" FontFamily="Comic Sans MS" FontSize="25" 
+                    Canvas.Left="605" Canvas.Top="610" Click="cmdBack_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType='{x:Type Button}'>
+                        <Grid>
+                            <Polygon x:Name='Shape' Points='0,120 60,0 120,120' Fill='#FF43E1FF'/>
+                            <ContentPresenter Margin='0,40,0,0' HorizontalAlignment='Center' VerticalAlignment='Center'/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property='IsPressed' Value='True'>
+                                <Setter TargetName='Shape' Property='Fill' Value='#FF07D7FF'/>
+                            </Trigger>
+                            <Trigger Property='IsKeyboardFocused' Value='True'>
+                                <Setter TargetName='Shape' Property='Stroke' Value='Black'/>
+                            </Trigger>
+                        </ControlTemplate.Triggers >
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Name="cmdSave" Content="Save" FontFamily="Comic Sans MS" FontSize="25" Canvas.Left="269" Canvas.Top="610" Click="cmdSave_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType='{x:Type Button}'>
+                        <Grid>
+                            <Polygon x:Name='Shape' Points='0,120 0,0 120,0 120,120' Fill='#FF58FF54'/>
+                            <ContentPresenter HorizontalAlignment='Center' VerticalAlignment='Center'/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property='IsPressed' Value='True'>
+                                <Setter TargetName='Shape' Property='Fill' Value='#FF65D662'/>
+                            </Trigger>
+                            <Trigger Property='IsKeyboardFocused' Value='True'>
+                                <Setter TargetName='Shape' Property='Stroke' Value='Black'/>
+                            </Trigger>
+                        </ControlTemplate.Triggers >
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Canvas>
     </Grid>
 </Window>
