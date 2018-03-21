@@ -27,8 +27,11 @@
             <ImageBrush ImageSource="Images\KidMathBackground.png" Opacity="0.4" Stretch="Uniform"/>
         </Grid.Background>
         <Canvas Name="container">
-            <Button Name="cmdSettings" Content="Settings" Foreground="#FF16663A" FontFamily="Comic Sans MS" FontSize="25" TabIndex="1" 
+            <Button Name="cmdSettings" Foreground="#FF16663A" FontFamily="Comic Sans MS" FontSize="25" TabIndex="1" 
                     FocusVisualStyle="{x:Null}" Height="175" Canvas.Left="595" Canvas.Top="107" Width="180" Click="cmdSettings_Click">
+                <Button.Content>
+                    <Image Source="Images\tools.png" Margin="40"/>
+                </Button.Content>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
@@ -271,7 +274,7 @@
                 </Button.Template>
             </Button>
         </Canvas>
-        <Canvas Name="settingsScreen" Visibility="Collapsed">
+        <Canvas Name="settingsScreen" Visibility="Collapsed" Background="AliceBlue">
             <TextBlock Style="{StaticResource TextBoxStyle}" Text="Player Name:" Width="125" 
                        Canvas.Left="100" Canvas.Top="100"/>
             <TextBox Name="txtBoxPlayerName" FontFamily="Comic Sans MS" FontSize="20" Width="625"
@@ -289,16 +292,20 @@
             <GroupBox Width="375" Height="275" Header="Operations" FontFamily="Comic Sans MS"
                       FontSize="20" Canvas.Left="100" Canvas.Top="300">
                 <Canvas>
-                    <CheckBox Name="chkAdd" Canvas.Left="50" Canvas.Top="37">
+                    <CheckBox Name="chkAdd" Canvas.Left="50" Canvas.Top="37"
+                              IsChecked="{Binding Path=WillAdd}">
                         <Image Source="Images\add.png" Width="50" Height="50"/>
                     </CheckBox>
-                    <CheckBox Name="chkSubtract" Canvas.Left="224" Canvas.Top="37">
+                    <CheckBox Name="chkSubtract" Canvas.Left="224" Canvas.Top="37"
+                              IsChecked="{Binding Path=WillSubtract}">
                         <Image Source="Images\subtract.png" Width="50" Height="50"/>
                     </CheckBox>
-                    <CheckBox Name="chkMultiply" Canvas.Left="50" Canvas.Top="139">
+                    <CheckBox Name="chkMultiply" Canvas.Left="50" Canvas.Top="139"
+                              IsChecked="{Binding Path=WillMultiply}">
                         <Image Source="Images\multiply.png" Width="50" Height="50"/>
                     </CheckBox>
-                    <CheckBox Name="chkDivide" Canvas.Left="224" Canvas.Top="139">
+                    <CheckBox Name="chkDivide" Canvas.Left="224" Canvas.Top="139"
+                              IsChecked="{Binding Path=WillDivide}">
                         <Image Source="Images\divide.png" Width="50" Height="50"/>
                     </CheckBox>
                 </Canvas>

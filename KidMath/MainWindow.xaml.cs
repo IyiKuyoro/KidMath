@@ -23,11 +23,11 @@ namespace KidMath
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    [Serializable]
     public partial class MainWindow : Window
     {
         #region Fields
         public Settings GameSettings;
+        private SerializableSettings serializableSettings;
         #endregion Fields
 
         #region Methods
@@ -87,6 +87,40 @@ namespace KidMath
             container.Visibility = Visibility.Visible;
             ShowStartScreenControls();
         }
+        private void ReadSettings()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (Stream fStream = new FileStream("settings.dat", FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                serializableSettings = (SerializableSettings)formatter.Deserialize(fStream);
+            }
+            GameSettings.Time = serializableSettings.time;
+            GameSettings.Questions = serializableSettings.questions;
+            GameSettings.MaxOperand = serializableSettings.maxOperand;
+            GameSettings.PlayerName = serializableSettings.playerName;
+            GameSettings.WillAdd = serializableSettings.add;
+            GameSettings.WillSubtract = serializableSettings.subtract;
+            GameSettings.WillMultiply = serializableSettings.multiply;
+            GameSettings.WillDivide = serializableSettings.divide;
+        }
+        private void WriteSettings()
+        {
+            //Save the settings data.
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (Stream fStream = new FileStream("settings.dat", FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                serializableSettings.time = GameSettings.Time;
+                serializableSettings.questions = GameSettings.Questions;
+                serializableSettings.maxOperand = GameSettings.MaxOperand;
+                serializableSettings.playerName = GameSettings.PlayerName;
+                serializableSettings.add = GameSettings.WillAdd;
+                serializableSettings.subtract = GameSettings.WillSubtract;
+                serializableSettings.multiply = GameSettings.WillMultiply;
+                serializableSettings.divide = GameSettings.WillDivide;
+
+                formatter.Serialize(fStream, serializableSettings);
+            }
+        }
 
         #region EventHandlers
         /// <summary>
@@ -110,10 +144,12 @@ namespace KidMath
         /// <param name="e"></param>
         private void cmdBack_Click(object sender, RoutedEventArgs e)
         {
+            ReadSettings();
             ReturnToStartScreen();
         }
         private void cmdSave_Click(object sender, RoutedEventArgs e)
         {
+            WriteSettings();
             ReturnToStartScreen();
         }
         private void cmbDuration_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -139,6 +175,18 @@ namespace KidMath
         {
             InitializeComponent();
             GameSettings = new Settings();
+
+            //Map GameSettings class to an instance of SerializableSettings
+            serializableSettings = new SerializableSettings();
+            BinaryFormatter formatter = new BinaryFormatter();
+            if (File.Exists("settings.dat"))
+            {
+                ReadSettings();
+            }
+            else
+            {
+                WriteSettings();
+            }
 
             DataContext = GameSettings;
 

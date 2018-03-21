@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="NumberOfQuestionsConverter.cs" />
+    <Compile Include="SerializableSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TimeValueConverter.cs" />
     <Page Include="MainWindow.xaml">
@@ -111,6 +112,9 @@
     <Resource Include="Images\divide.png" />
     <Resource Include="Images\multiply.png" />
     <Resource Include="Images\subtract.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tools.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,16 +9,6 @@ namespace KidMath
 {
     public class Settings : Window
     {
-        #region Enum
-        public enum Operations
-        {
-            Addition,
-            Subtraction,
-            Multiplication,
-            Division
-        }
-        #endregion Enum
-
         #region Fields
         #endregion Fields
 
@@ -65,10 +55,6 @@ namespace KidMath
                 SetValue(QuestionsProperty, value);
             }
         }
-        /// <summary>
-        /// This represents the maximum operand that will be used in generating questions.
-        /// </summary>
-        /// 
         public int MaxOperand
         {
             get
@@ -80,9 +66,6 @@ namespace KidMath
                 SetValue(MaxOperandProperty, value);
             }
         }
-        /// <summary>
-        /// The name of the player
-        /// </summary>
         public string PlayerName
         {
             get
@@ -94,12 +77,72 @@ namespace KidMath
                 SetValue(PlayerNameProperty, value);
             }
         }
+        /// <summary>
+        /// Will the game include the addition operation?
+        /// </summary>
+        public bool WillAdd
+        {
+            get
+            {
+                return (bool)GetValue(WillAddProperty);
+            }
+            set
+            {
+                SetValue(WillAddProperty, value);
+            }
+        }
+        /// <summary>
+        /// Will the game include the subtraction operation?
+        /// </summary>
+        public bool WillSubtract
+        {
+            get
+            {
+                return (bool)GetValue(WillSubtractProperty);
+            }
+            set
+            {
+                SetValue(WillSubtractProperty, value);
+            }
+        }
+        /// <summary>
+        /// Will the game include the subtraction operation?
+        /// </summary>
+        public bool WillMultiply
+        {
+            get
+            {
+                return (bool)GetValue(WillMultiplyProperty);
+            }
+            set
+            {
+                SetValue(WillMultiplyProperty, value);
+            }
+        }
+        /// <summary>
+        /// Will the game include the subtraction operation?
+        /// </summary>
+        public bool WillDivide
+        {
+            get
+            {
+                return (bool)GetValue(WillDivideProperty);
+            }
+            set
+            {
+                SetValue(WillDivideProperty, value);
+            }
+        }
 
         #region DependencyProperties
         DependencyProperty TimeProperty = DependencyProperty.Register("Time", typeof(int), typeof(Settings), new PropertyMetadata(10));
         DependencyProperty QuestionsProperty = DependencyProperty.Register("Questions", typeof(int), typeof(Settings), new PropertyMetadata(5));
         DependencyProperty MaxOperandProperty = DependencyProperty.Register("MaxOperand", typeof(int), typeof(Settings), new PropertyMetadata(9));
         DependencyProperty PlayerNameProperty = DependencyProperty.Register("PlayerName", typeof(string), typeof(Settings), new PropertyMetadata("Player"));
+        DependencyProperty WillAddProperty = DependencyProperty.Register("WillAdd", typeof(bool), typeof(Settings), new PropertyMetadata(true));
+        DependencyProperty WillSubtractProperty = DependencyProperty.Register("WillSubtract", typeof(bool), typeof(Settings), new PropertyMetadata(false));
+        DependencyProperty WillMultiplyProperty = DependencyProperty.Register("WillMultiply", typeof(bool), typeof(Settings), new PropertyMetadata(false));
+        DependencyProperty WillDivideProperty = DependencyProperty.Register("WillDivide", typeof(bool), typeof(Settings), new PropertyMetadata(false));
         #endregion DependencyProerties
         #endregion Properties
 
