@@ -5,12 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KidMath"
         mc:Ignorable="d"
-        Title="KidMath" Height="800" Width="1000" ResizeMode="NoResize" Left="200" Top="20">
+        Title="KidMath" Height="800" Width="1000" ResizeMode="NoResize" Left="200" Top="20"
+        Name="KidMathWindow">
     <Window.Resources>
-        <Style x:Key="TextBoxStyle" TargetType="TextBlock">
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style x:Key="GameTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="110"/>
+            <Setter Property="TextAlignment" Value="Center"/>
         </Style>
         <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -174,7 +180,7 @@
             </Button>
             <Button Name="cmdStartGame" Content="Start Game!" Foreground="#FF18438B" FontFamily="Comic Sans MS" 
                     FontSize="40" Background="#FF470960" TabIndex="0" FocusVisualStyle="{x:Null}" 
-                    Canvas.Left="108" Canvas.Top="151" Width="350" Height="350">
+                    Canvas.Left="108" Canvas.Top="151" Width="350" Height="350" Click="cmdStartGame_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
@@ -274,18 +280,25 @@
                 </Button.Template>
             </Button>
         </Canvas>
-        <Canvas Name="settingsScreen" Visibility="Collapsed" Background="AliceBlue">
-            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Player Name:" Width="125" 
+        <Canvas Name="settingsScreen" Visibility="Collapsed">
+            <Canvas.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#FFE9FFE7" Offset="0.991"/>
+                    <GradientStop Color="#FFAEFFA8" Offset="0.464"/>
+                    <GradientStop Color="#FF7EFD76" Offset="0.009"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <TextBlock Style="{StaticResource TextBlockStyle}" Text="Player Name:" Width="125" 
                        Canvas.Left="100" Canvas.Top="100"/>
             <TextBox Name="txtBoxPlayerName" FontFamily="Comic Sans MS" FontSize="20" Width="625"
                      Height="30" TextAlignment="Center" Canvas.Left="225" Canvas.Top="100"
                      Text="{Binding Path=PlayerName}"/>
-            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Duration:"
+            <TextBlock Style="{StaticResource TextBlockStyle}" Text="Duration:"
                        Width="125" Canvas.Left="100" Canvas.Top="200"/>
             <ComboBox Style="{StaticResource ComboBoxStyle}" Name="cmbDuration"
                       Canvas.Top="200" Canvas.Left="225" SelectedItem="{Binding Path=Time, Converter={StaticResource ResourceKey=timeConverter}}" 
                       SelectionChanged="cmbDuration_SelectionChanged"/>
-            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Nos." Width="100" Height="30"
+            <TextBlock Style="{StaticResource TextBlockStyle}" Text="Nos." Width="100" Height="30"
                        Canvas.Top="200" Canvas.Left="525"/>
             <ComboBox Style="{StaticResource ComboBoxStyle}" Name="cmbQuestions"
                       Canvas.Top="200" Canvas.Left="600" SelectedItem="{Binding Path=Questions, Converter={StaticResource ResourceKey=questionsConverter}}"/>
@@ -310,7 +323,7 @@
                     </CheckBox>
                 </Canvas>
             </GroupBox>
-            <TextBlock Style="{StaticResource TextBoxStyle}" Text="Max Operand" TextAlignment="Center"
+            <TextBlock Style="{StaticResource TextBlockStyle}" Text="Max Operand" TextAlignment="Center"
                        Width="125" Canvas.Left="600" Canvas.Top="358"/>
             <ComboBox Style="{StaticResource ComboBoxStyle}" Name="cmbMaxOperand" 
                       Canvas.Left="544" Canvas.Top="415" SelectedItem="{Binding Path=MaxOperand}"/>
@@ -348,6 +361,58 @@
                                 <Setter TargetName='Shape' Property='Stroke' Value='Black'/>
                             </Trigger>
                         </ControlTemplate.Triggers >
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Canvas>
+        <Canvas Name="gameScreen" Background="AliceBlue" Visibility="Collapsed">
+            <Grid Width="607" Height="100" Canvas.Left="187" Canvas.Top="117">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="507*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderBrush="Blue" BorderThickness="2">
+                    <TextBlock Name="timer" FontFamily="Agency FB" FontSize="90" 
+                               TextAlignment="Center" Text="{Binding ElementName=KidMathWindow, Path=Clock}"/>
+                </Border>
+                <Border Grid.Column="1" BorderBrush="Blue" BorderThickness="2">
+                    <TextBlock Name="messageBox" FontFamily="Comic Sans MS" FontSize="30" TextAlignment="Center"
+                               TextWrapping="Wrap" Text="Hello!!!"/>
+                </Border>
+            </Grid>
+            <Border Width="172" Height="172" BorderBrush="Blue" BorderThickness="2" 
+                    Canvas.Left="187" Canvas.Top="291">
+                <TextBlock Name="txtFirstOperand" Style="{StaticResource GameTextBlockStyle}" 
+                           Width="170" Height="170" Margin="2" TextAlignment="Center"/>
+            </Border>
+            <Border Width="172" Height="172" BorderBrush="Blue" BorderThickness="2" 
+                    Canvas.Left="622" Canvas.Top="291">
+                <TextBlock Name="txtSecondOperand" Style="{StaticResource GameTextBlockStyle}" 
+                           Width="170" Height="170" Margin="2" TextAlignment="Center"/>
+            </Border>
+            <TextBlock Name="operator" Style="{StaticResource GameTextBlockStyle}" FontSize="80"
+                       Width="125" Height="125" Canvas.Left="425" Canvas.Top="317"/>
+            <Border Width="172" Height="172" BorderBrush="Blue" BorderThickness="4" 
+                    Canvas.Left="400" Canvas.Top="510">
+                <TextBox Name="answer" Width="155" Height="155" TextAlignment="Center"
+                         Margin="5" BorderBrush="Blue" BorderThickness="1" FontSize="80"
+                         VerticalContentAlignment="Center" FontFamily="Comic Sans MS" KeyUp="answer_KeyUp"/>
+            </Border>
+            <Button Name="cmdEndGame" Width="80" Height="80" FontFamily="Comic Sans MS" FontSize="20" Content="END" 
+                    Foreground="#FF5D0C0C" TabIndex="3" FocusVisualStyle="{x:Null}" Canvas.Left="846" 
+                    Canvas.Top="633" Focusable="False" Click="cmdEndGame_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Shape" Fill="#FFFF3F3F">
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="pink"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
