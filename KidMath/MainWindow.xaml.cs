@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using System.IO;
@@ -96,13 +97,44 @@ namespace KidMath
             gameTimer.Start();
 
             this.answer.Focus();
+            questionsCounter = 0;
             messageBox.Text = "Let's play!";
+            answer.IsEnabled = true;
+            answer.Focus();
             GenerateQuestion();
         }
 
         private void EndGame()
         {
+            gameTimer.Dispose();
             answer.IsEnabled = false;
+            game.EndGame();
+            txtGameScore.Text = "You Scored " + game.Score.ToString() + "%";
+            gameOverScreen.Visibility = Visibility.Visible;
+            
+            //Initialize data table
+            DataTable gameData = new DataTable();
+            gameData.Columns.Add("Questions", typeof(string));
+            gameData.Columns.Add("Correct Ans", typeof(double));
+            gameData.Columns.Add("Your Ans", typeof(double));
+
+            //Retrieve all games data
+            string[] questions = game.GetQuestions();
+            double[] givenAns = game.GetGivenAns();
+            double[] correctAns = game.GetCorrectAns();
+
+            //Initialize and set the data rows into the table.
+            for(int i = 0; i < givenAns.Length; i++)
+            {
+                DataRow dataRow =  gameData.NewRow();
+                dataRow["Questions"] = questions[i];
+                dataRow["Correct Ans"] = correctAns[i];
+                dataRow["Your Ans"] = givenAns[i];
+
+                gameData.Rows.Add(dataRow);
+            }
+
+            GameDataView.DataContext = gameData.DefaultView;
         }
 
         /// <summary>
@@ -209,11 +241,13 @@ namespace KidMath
 
         private void ReturnToStartScreen()
         {
-            //Collapses settings screen and display start screen
+            //Collapses all other screens
             if(settingsScreen.Visibility == Visibility.Visible)
                 settingsScreen.Visibility = Visibility.Collapsed;
             if (gameScreen.Visibility == Visibility.Visible)
                 gameScreen.Visibility = Visibility.Collapsed;
+            if (gameOverScreen.Visibility == Visibility.Visible)
+                gameOverScreen.Visibility = Visibility.Collapsed;
 
             container.Visibility = Visibility.Visible;
             ShowStartScreenControls();
@@ -277,6 +311,7 @@ namespace KidMath
 
         private void ShowGameScreen(object sender, EventArgs e)
         {
+            gameOverScreen.Visibility = Visibility.Collapsed;
             gameScreen.Visibility = Visibility.Visible;
         }
 
@@ -326,7 +361,7 @@ namespace KidMath
             {
                 try
                 {
-                    game.SaveAns(Convert.ToInt32(this.answer.Text));
+                    game.SaveAns(Convert.ToDouble(this.answer.Text));
                     this.answer.Focus();
                     this.answer.Clear();
                     if (questionsCounter != 1)
@@ -350,6 +385,19 @@ namespace KidMath
         {
             EndGame();
         }
+
+        private void cmdAgain_Click(object sender, RoutedEventArgs e)
+        {
+            gameOverScreen.Visibility = Visibility.Collapsed;
+            game = new Game(gameSettings);
+            Clock = game.Settings.Time;
+            StartGame(sender, e);
+        }
+
+        private void cmdHome_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToStartScreen();
+        }
         #endregion Methods
 
         #region Contructors
@@ -357,7 +405,6 @@ namespace KidMath
         {
             InitializeComponent();
             gameSettings = new Settings();
-            questionsCounter = 0;
 
             //Map GameSettings class to an instance of SerializableSettings
             serializableSettings = new SerializableSettings();

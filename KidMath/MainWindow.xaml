@@ -417,5 +417,49 @@
                 </Button.Template>
             </Button>
         </Canvas>
+        <Canvas Name="gameOverScreen" Background="AliceBlue" Visibility="Collapsed">
+            <TextBlock Text="Game Over!" Style="{StaticResource ResourceKey=TextBlockStyle}" FontSize="40"
+                       Height="50" Canvas.Left="390" Canvas.Top="29" FontWeight="Bold"/>
+            <TextBlock Name="txtGameScore" Style="{StaticResource ResourceKey=TextBlockStyle}" FontSize="40"
+                Height="50" Canvas.Left="346" Canvas.Top="84"/>
+            <DataGrid Width="750" Height="482" Canvas.Left="118" Canvas.Top="157" Name="GameDataView" 
+                      ItemsSource="{Binding}" FontSize="35" ColumnWidth="250"/>
+            <Button Name="cmdAgain" Width="80" Height="80" FontFamily="Comic Sans MS" FontSize="20" Content="Again" 
+                    Foreground="Black" TabIndex="3" FocusVisualStyle="{x:Null}" Canvas.Left="739" 
+                    Canvas.Top="664" Focusable="False" Click="cmdAgain_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Shape" Fill="#FF4AFF3F">
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FF3AB901"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Name="cmdHome" Width="80" Height="80" FontFamily="Comic Sans MS" FontSize="20" Content="Home" 
+                    Foreground="Black" TabIndex="3" FocusVisualStyle="{x:Null}" Canvas.Left="619" 
+                    Canvas.Top="664" Focusable="False" Click="cmdHome_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Shape" Fill="#FFFFBB3F">
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FF976311"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Canvas>
     </Grid>
 </Window>

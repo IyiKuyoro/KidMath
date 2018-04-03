@@ -19,10 +19,10 @@ namespace KidMath
         private readonly Settings settings;
         private bool isCompleted;
         private List<string> questions;
-        private List<int> givenAns;
-        private List<int> correctAns;
+        private List<double> givenAns;
+        private List<double> correctAns;
         public List<Operation> operations;
-        private int score;
+        private double score;
         #endregion Fields
 
         #region Properties
@@ -34,7 +34,7 @@ namespace KidMath
         {
             get { return isCompleted; }
         }
-        public int Score
+        public double Score
         {
             get
             {
@@ -56,7 +56,7 @@ namespace KidMath
         /// Returns an integer array of all the answers that where provided
         /// </summary>
         /// <returns>An array of integers</returns>
-        public int[] GetGivenAns()
+        public double[] GetGivenAns()
         {
             return givenAns.ToArray();
         }
@@ -64,7 +64,7 @@ namespace KidMath
         /// Returns an integer array of the correct answers to the questions asked
         /// </summary>
         /// <returns>An integer array or correct answers</returns>
-        public int[] GetCorrectAns()
+        public double[] GetCorrectAns()
         {
             return correctAns.ToArray();
         }
@@ -79,50 +79,53 @@ namespace KidMath
             if (operation == Operation.Addition)
             {
                 questions.Add(string.Format("{0} + {1}", firstOperand, secondOperand));
-                correctAns.Add(firstOperand + secondOperand);
+                correctAns.Add((double)firstOperand + (double)secondOperand);
             }
             else if (operation == Operation.Subtraction)
             {
                 questions.Add(string.Format("{0} - {1}", firstOperand, secondOperand));
-                correctAns.Add(firstOperand - secondOperand);
+                correctAns.Add((double)firstOperand - (double)secondOperand);
             }
             else if (operation == Operation.Multiplication)
             {
                 questions.Add(string.Format("{0} x {1}", firstOperand, secondOperand));
-                correctAns.Add(firstOperand * secondOperand);
+                correctAns.Add((double)firstOperand * (double)secondOperand);
             }
             else
             {
                 questions.Add(string.Format("{0} / {1}", firstOperand, secondOperand));
-                correctAns.Add(firstOperand / secondOperand);
+                correctAns.Add((double)firstOperand / (double)secondOperand);
             }
         }
         /// <summary>
         /// Saves a copy of the answer the user provides for the question
         /// </summary>
         /// <param name="ans">The users answer</param>
-        public void SaveAns(int ans)
+        public void SaveAns(double ans)
         {
             givenAns.Add(ans);
         }
         /// <summary>
         /// Ends the game by computing the users score.
         /// </summary>
-        private void EndGame()
+        public void EndGame()
         {
             isCompleted = true;
-            int correct = 0;
+            double correct = 0;
             int i = 0;
-            foreach(int ans in givenAns)
+            foreach(int ans in correctAns)
             {
-                if (ans == correctAns[i])
+                if (i < givenAns.Count)
                 {
-                    correct++;
+                    if (ans == givenAns[i])
+                    {
+                        correct++;
+                    }
+                    i++;
                 }
-                i++;
             }
 
-            score = (correct / settings.Questions) * 100;
+            score = ((correct / settings.Questions) * 100);
         }
         #endregion Methods
 
@@ -133,8 +136,8 @@ namespace KidMath
             settings = gameSettings;
             score = 0;
             questions = new List<string>();
-            givenAns = new List<int>();
-            correctAns = new List<int>();
+            givenAns = new List<double>();
+            correctAns = new List<double>();
             operations = new List<Operation>();
 
             if(settings.WillAdd)
