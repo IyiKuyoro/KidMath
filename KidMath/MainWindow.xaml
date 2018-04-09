@@ -108,7 +108,7 @@
                 </Button.Triggers>
             </Button>
             <Button Name="cmdHistory" Content="History" Foreground="#FF631155" FontFamily="Comic Sans MS" FontSize="25" 
-                    TabIndex="2" FocusVisualStyle="{x:Null}" Height="169" Canvas.Left="718" Canvas.Top="342" Width="176">
+                    TabIndex="2" FocusVisualStyle="{x:Null}" Height="169" Canvas.Left="718" Canvas.Top="342" Width="176" Click="cmdHistory_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
@@ -455,6 +455,69 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="Shape" Property="Fill" Value="#FF976311"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Canvas>
+        <Canvas Name="gameHistoryScreen" Background="LightPink" Visibility="Collapsed">
+            <DataGrid Width="974" Height="654" Canvas.Left="10" Canvas.Top="10" Name="GameHistoryView" 
+                      ItemsSource="{Binding}" FontSize="15" ColumnWidth="*"/>
+            <TextBlock FontSize="15" Canvas.Left="38" Canvas.Top="686">
+                Tot Qs = Total No of Questions
+            </TextBlock>
+            <TextBlock FontSize="15" Canvas.Left="38" Canvas.Top="711">
+                Att Qs = No of Questions attempted
+            </TextBlock>
+            <Button Name="cmdExit" Width="80" Height="80" FontFamily="Comic Sans MS" FontSize="20" Content="Exit" 
+                    Foreground="Black" TabIndex="3" FocusVisualStyle="{x:Null}" Canvas.Left="875" 
+                    Canvas.Top="680" Focusable="False" Click="cmdExit_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Shape" Fill="#FFFD3F31">
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FF6B3207"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Canvas>
+        <Canvas Name="aboutScreen" Background="White" Visibility="Collapsed">
+            <TextBlock TextAlignment="Center" Width="974" Canvas.Left="10" Height="510"
+                       VerticalAlignment="Center" Canvas.Top="104" FontSize="30" TextWrapping="Wrap">
+                This game was created by Opeoluwa Anthony Iyi-Kuyoro, as part of an attempt to master the 
+                art of computer programming with C#, WPF and the .NET Framework. 
+                <LineBreak/>
+                The original idea for the game
+                is not mine, and I by no means claim ownership of the idea. However,
+                the UI design and animations was concived by the myself. 
+                <LineBreak/>
+                <LineBreak/>
+                Two icons (the settings button icon and the app icon) were designed by Good Ware --> www.flaticon.com/authors/good-ware
+                <LineBreak/>
+                <LineBreak/>
+                Credit to the bright minds of StackOverflow, for providing solutions to my many problems.
+            </TextBlock>
+            <Button Name="cmdExitAbout" Width="80" Height="80" FontFamily="Comic Sans MS" FontSize="20" Content="Exit" 
+                    Foreground="Black" TabIndex="3" FocusVisualStyle="{x:Null}" Canvas.Left="853" 
+                    Canvas.Top="650" Focusable="False" Click="cmdExitAbout_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="Shape" Fill="#FFFD3F31">
+                            </Ellipse>
+                            <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Shape" Property="Fill" Value="#FF6B3207"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

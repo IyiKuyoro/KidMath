@@ -33,6 +33,7 @@ namespace KidMath
         private Game game;
         private Timer gameTimer;
         private int questionsCounter;
+        private DataTable gameHistory;
         #endregion Fields
 
         #region Property
@@ -70,8 +71,10 @@ namespace KidMath
             DoubleAnimation fadeAnimation3 = fadeAnimation.Clone();
 
             fadeAnimation.Completed += CollapseStartPage;
-            if((System.Windows.Controls.Button)sender == cmdSettings)
+            if ((System.Windows.Controls.Button)sender == cmdSettings)
+            {
                 fadeAnimation.Completed += ShowSettingsScreen;
+            }
 
             if ((System.Windows.Controls.Button)sender == cmdStartGame)
             {
@@ -79,10 +82,23 @@ namespace KidMath
                 fadeAnimation.Completed += StartGame;
             }
 
+            if ((System.Windows.Controls.Button)sender == cmdHistory)
+            {
+                fadeAnimation.Completed += ShowHistoryScreen;
+            }
+
             cmdStartGame.BeginAnimation(System.Windows.Controls.Button.OpacityProperty, fadeAnimation);
             cmdSettings.BeginAnimation(System.Windows.Controls.Button.OpacityProperty, fadeAnimation1);
             cmdHistory.BeginAnimation(System.Windows.Controls.Button.OpacityProperty, fadeAnimation2);
             cmdAbout.BeginAnimation(System.Windows.Controls.Button.OpacityProperty, fadeAnimation3);
+        }
+
+        private void ShowHistoryScreen(object sender, EventArgs e)
+        {
+            gameOverScreen.Visibility = Visibility.Collapsed;
+            container.Visibility = Visibility.Collapsed;
+            gameScreen.Visibility = Visibility.Collapsed;
+            gameHistoryScreen.Visibility = Visibility.Visible;
         }
 
         private void StartGame(object sender, EventArgs e)
@@ -123,7 +139,7 @@ namespace KidMath
             double[] givenAns = game.GetGivenAns();
             double[] correctAns = game.GetCorrectAns();
 
-            //Initialize and set the data rows into the table.
+            //Initialize and add data rows to the table.
             for(int i = 0; i < givenAns.Length; i++)
             {
                 DataRow dataRow =  gameData.NewRow();
@@ -135,6 +151,29 @@ namespace KidMath
             }
 
             GameDataView.DataContext = gameData.DefaultView;
+
+            SaveGameHistory(givenAns, correctAns);
+            WriteHistory();
+        }
+
+        private void SaveGameHistory(double[] ans, double[] correctAns)
+        {
+            DataRow dataRow = gameHistory.NewRow();
+            dataRow["Player"] = gameSettings.PlayerName;
+            dataRow["Time"] = DateTime.Now;
+            dataRow["Tot Qs"] = gameSettings.Questions;
+            dataRow["Att Qs"] = ans.Length;
+            int correct = 0;
+            for(int i = 0; i < ans.Length; i++)
+            {
+                if(correctAns[i] == ans[i])
+                    correct++;
+            }
+            dataRow["Correct"] = correct;
+            dataRow["Duration"] = gameSettings.Time;
+            dataRow["Score"] = string.Format("{0}%", game.Score);
+
+            gameHistory.Rows.Add(dataRow);
         }
 
         /// <summary>
@@ -248,6 +287,10 @@ namespace KidMath
                 gameScreen.Visibility = Visibility.Collapsed;
             if (gameOverScreen.Visibility == Visibility.Visible)
                 gameOverScreen.Visibility = Visibility.Collapsed;
+            if (gameHistoryScreen.Visibility == Visibility.Visible)
+                gameHistoryScreen.Visibility = Visibility.Collapsed;
+            if (aboutScreen.Visibility == Visibility.Visible)
+                aboutScreen.Visibility = Visibility.Hidden;
 
             container.Visibility = Visibility.Visible;
             ShowStartScreenControls();
@@ -260,6 +303,7 @@ namespace KidMath
             {
                 serializableSettings = (SerializableSettings)formatter.Deserialize(fStream);
             }
+            //Map GameSettings to the saved serializableSettings instance.
             gameSettings.Time = serializableSettings.time;
             gameSettings.Questions = serializableSettings.questions;
             gameSettings.MaxOperand = serializableSettings.maxOperand;
@@ -268,6 +312,15 @@ namespace KidMath
             gameSettings.WillSubtract = serializableSettings.subtract;
             gameSettings.WillMultiply = serializableSettings.multiply;
             gameSettings.WillDivide = serializableSettings.divide;
+        }
+
+        private void ReadHistory()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (Stream fStream = new FileStream("History.dat", FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                gameHistory = (DataTable)formatter.Deserialize(fStream);
+            }
         }
 
         private void WriteSettings()
@@ -286,6 +339,16 @@ namespace KidMath
                 serializableSettings.divide = gameSettings.WillDivide;
 
                 formatter.Serialize(fStream, serializableSettings);
+            }
+        }
+
+        private void WriteHistory()
+        {
+            //Save the history.
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (Stream fStream = new FileStream("History.dat", FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                formatter.Serialize(fStream, gameHistory);
             }
         }
 
@@ -398,6 +461,22 @@ namespace KidMath
         {
             ReturnToStartScreen();
         }
+
+        private void cmdHistory_Click(object sender, RoutedEventArgs e)
+        {
+            FadeOutButtons(sender, e);
+            GameHistoryView.DataContext = gameHistory.DefaultView;
+        }
+        
+        private void cmdExit_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToStartScreen();
+        }
+
+        private void cmdExitAbout_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToStartScreen();
+        }
         #endregion Methods
 
         #region Contructors
@@ -406,9 +485,7 @@ namespace KidMath
             InitializeComponent();
             gameSettings = new Settings();
 
-            //Map GameSettings class to an instance of SerializableSettings
             serializableSettings = new SerializableSettings();
-            BinaryFormatter formatter = new BinaryFormatter();
             if (File.Exists("settings.dat"))
             {
                 ReadSettings();
@@ -424,6 +501,24 @@ namespace KidMath
             cmbDuration.ItemsSource = new string[] { "10 Seconds", "20 Seconds", "30 Seconds", "40 Seconds", "50 Seconds", "60 Seconds" };
             //Populate MaxOperand ComboBox
             cmbMaxOperand.ItemsSource = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+                    
+            //Read saved game histories.
+            if (File.Exists("History.dat"))
+            {
+                ReadHistory();
+            }
+            else
+            {
+                //create the game history schema
+                gameHistory = new DataTable();
+                gameHistory.Columns.Add("Player", typeof(string));
+                gameHistory.Columns.Add("Time", typeof(DateTime));
+                gameHistory.Columns.Add("Tot Qs", typeof(int));
+                gameHistory.Columns.Add("Att Qs", typeof(int));
+                gameHistory.Columns.Add("Correct", typeof(int));
+                gameHistory.Columns.Add("Duration", typeof(int));
+                gameHistory.Columns.Add("Score", typeof(string));
+            }
         }
         #endregion Contructors
     }
